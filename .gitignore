@@ -1,6 +1,6 @@
 # Node.js dependencies
 node_modules/
-
+.angular/
 # Angular build output
 #dist/
 #out-tsc/
