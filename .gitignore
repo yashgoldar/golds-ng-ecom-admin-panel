@@ -1,0 +1,27 @@
+# Node.js dependencies
+node_modules/
+
+# Angular build output
+#dist/
+#out-tsc/
+
+# Environment files
+#.env
+#.env.local
+#.env.*.local
+#src/environments/environment*.ts
+
+# Logs & Cache
+#npm-debug.log*
+#yarn-debug.log*
+#yarn-error.log*
+#pnpm-debug.log*
+#package-lock.json
+#yarn.lock
+#pnpm-lock.yaml
+
+# IDE & OS-specific files
+#.vscode/
+#.idea/
+#.DS_Store
+#Thumbs.db
