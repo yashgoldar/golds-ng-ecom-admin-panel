@@ -1,0 +1,34 @@
+// _helpers.scss
+
+.text-center {
+    text-align: center !important;
+  }
+  
+  .text-uppercase {
+    text-transform: uppercase;
+  }
+  
+  .text-bold {
+    font-weight: bold;
+  }
+  
+  .hidden {
+    display: none !important;
+  }
+  
+  .visible {
+    visibility: visible;
+  }
+  
+  .opacity-50 {
+    opacity: 0.5;
+  }
+  
+  .cursor-pointer {
+    cursor: pointer;
+  }
+  
+  .shadow {
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  

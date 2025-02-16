@@ -1,0 +1,26 @@
+@import "tailwindcss";
+@import 'abstracts/variables';
+@import 'abstracts/mixins';
+@import 'base/reset';
+@import 'base/typography';
+@import 'components/buttons';
+@import 'layout/header';
+@import 'layout/footer';
+@import 'themes/light-theme';
+@import 'utilities/spacing';
+@import 'utilities/flex';
+@import 'utilities/helpers';
+body {
+    // background-color: var(--bg-color);
+    background-color: #ecf2f7;
+    // color: var(--text-color);
+  }
+// html, body { 
+  
+//   height: 100%;
+// background-color: #ecf2f7;
+// }
+// body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; 
+//   background-color: red !important;
+//   // background-color: #ecf2f7;
+// }

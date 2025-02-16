@@ -1,0 +1,39 @@
+// _flex.scss
+
+.flex {
+    display: flex;
+  }
+  
+  .flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .flex-column {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .flex-space-between {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .flex-wrap {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .align-center {
+    align-items: center;
+  }
+  
+  .justify-center {
+    justify-content: center;
+  }
+  
+  .justify-between {
+    justify-content: space-between;
+  }
+  

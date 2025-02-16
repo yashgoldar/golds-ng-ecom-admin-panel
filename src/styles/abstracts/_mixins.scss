@@ -1,0 +1,27 @@
+@mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  // @mixin responsive($breakpoint) {
+  //   @if $breakpoint == mobile {
+  //     @media (max-width: 576px) { @content; }
+  //   } @else if $breakpoint == tablet {
+  //     @media (max-width: 768px) { @content; }
+  //   }
+  // }
+  
+
+// Usage
+// .card {
+//   width: 100%;
+  
+//   @include respond(md) {
+//     width: 50%;
+//   }
+
+//   @include respond(sm) {
+//     width: 100%;
+//   }
+// }
