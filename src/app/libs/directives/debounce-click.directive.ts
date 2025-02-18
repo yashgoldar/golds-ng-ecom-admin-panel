@@ -1,6 +1,9 @@
 import { Directive, EventEmitter, HostListener, Input, Output } from '@angular/core';
 
-@Directive({ selector: '[appDebounceClick]' })
+@Directive({
+    selector: '[appDebounceClick]',
+    standalone: false
+})
 export class DebounceClickDirective {
   @Input() debounceTime = 500;
   @Output() debounceClick = new EventEmitter();

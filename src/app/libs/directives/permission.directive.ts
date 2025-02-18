@@ -1,6 +1,9 @@
 import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
 
-@Directive({ selector: '[appPermission]' })
+@Directive({
+    selector: '[appPermission]',
+    standalone: false
+})
 export class PermissionDirective {
   @Input() set appPermission(allowedRoles: string[]) {
     const userRole = localStorage.getItem('userRole'); // Example: Replace with actual auth service

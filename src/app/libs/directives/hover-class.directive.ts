@@ -1,6 +1,9 @@
 import { Directive, ElementRef, HostListener, Input, Renderer2 } from '@angular/core';
 
-@Directive({ selector: '[appHoverClass]' })
+@Directive({
+    selector: '[appHoverClass]',
+    standalone: false
+})
 export class HoverClassDirective {
   @Input('appHoverClass') className!: string;
 

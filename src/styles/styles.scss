@@ -1,4 +1,14 @@
-@import "tailwindcss";
+// @import "./tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// @tailwind base;
+// @tailwind components;
+// @tailwind utilities;
+
+/* Your custom styles below */
+
 @import 'abstracts/variables';
 @import 'abstracts/mixins';
 @import 'base/reset';
@@ -24,3 +34,6 @@ body {
 //   background-color: red !important;
 //   // background-color: #ecf2f7;
 // }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

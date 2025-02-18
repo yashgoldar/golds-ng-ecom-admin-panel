@@ -1,6 +1,9 @@
 import { Directive, HostListener, Input } from '@angular/core';
 
-@Directive({ selector: '[appCopyToClipboard]' })
+@Directive({
+    selector: '[appCopyToClipboard]',
+    standalone: false
+})
 export class CopyToClipboardDirective {
   @Input('appCopyToClipboard') text!: string;
 
