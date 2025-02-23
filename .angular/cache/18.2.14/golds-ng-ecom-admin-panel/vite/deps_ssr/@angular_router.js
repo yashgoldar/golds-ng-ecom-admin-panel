@@ -1,7 +1,7 @@
 import { createRequire } from 'module';const require = createRequire(import.meta.url);
 import {
   Title
-} from "./chunk-F4JSRFGO.js";
+} from "./chunk-VL6XL643.js";
 import {
   DOCUMENT,
   HashLocationStrategy,
@@ -10,7 +10,7 @@ import {
   LocationStrategy,
   PathLocationStrategy,
   ViewportScroller
-} from "./chunk-2WG5QLMT.js";
+} from "./chunk-J6ZTTRJD.js";
 import {
   APP_BOOTSTRAP_LISTENER,
   APP_INITIALIZER,
@@ -79,8 +79,9 @@ import {
   ɵɵloadQuery,
   ɵɵqueryRefresh,
   ɵɵsanitizeUrlOrResourceUrl
-} from "./chunk-FB6BDKAH.js";
+} from "./chunk-QNCE3SLJ.js";
 import {
+  __async,
   __spreadProps,
   __spreadValues,
   __toESM
@@ -331,8 +332,8 @@ function mapChildrenIntoArray(segment, fn) {
 }
 var UrlSerializer = class _UrlSerializer {
   static {
-    this.ɵfac = function UrlSerializer_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _UrlSerializer)();
+    this.ɵfac = function UrlSerializer_Factory(t) {
+      return new (t || _UrlSerializer)();
     };
   }
   static {
@@ -1196,142 +1197,19 @@ function stringifyEvent(routerEvent) {
       return `Scroll(anchor: '${routerEvent.anchor}', position: '${pos}')`;
   }
 }
-function getOrCreateRouteInjectorIfNeeded(route, currentInjector) {
-  if (route.providers && !route._injector) {
-    route._injector = createEnvironmentInjector(route.providers, currentInjector, `Route: ${route.path}`);
-  }
-  return route._injector ?? currentInjector;
-}
-function validateConfig(config, parentPath = "", requireStandaloneComponents = false) {
-  for (let i = 0; i < config.length; i++) {
-    const route = config[i];
-    const fullPath = getFullPath(parentPath, route);
-    validateNode(route, fullPath, requireStandaloneComponents);
-  }
-}
-function assertStandalone(fullPath, component) {
-  if (component && isNgModule(component)) {
-    throw new RuntimeError(4014, `Invalid configuration of route '${fullPath}'. You are using 'loadComponent' with a module, but it must be used with standalone components. Use 'loadChildren' instead.`);
-  } else if (component && !isStandalone(component)) {
-    throw new RuntimeError(4014, `Invalid configuration of route '${fullPath}'. The component must be standalone.`);
-  }
-}
-function validateNode(route, fullPath, requireStandaloneComponents) {
-  if (typeof ngDevMode === "undefined" || ngDevMode) {
-    if (!route) {
-      throw new RuntimeError(4014, `
-      Invalid configuration of route '${fullPath}': Encountered undefined route.
-      The reason might be an extra comma.
-
-      Example:
-      const routes: Routes = [
-        { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-        { path: 'dashboard',  component: DashboardComponent },, << two commas
-        { path: 'detail/:id', component: HeroDetailComponent }
-      ];
-    `);
-    }
-    if (Array.isArray(route)) {
-      throw new RuntimeError(4014, `Invalid configuration of route '${fullPath}': Array cannot be specified`);
-    }
-    if (!route.redirectTo && !route.component && !route.loadComponent && !route.children && !route.loadChildren && route.outlet && route.outlet !== PRIMARY_OUTLET) {
-      throw new RuntimeError(4014, `Invalid configuration of route '${fullPath}': a componentless route without children or loadChildren cannot have a named outlet set`);
-    }
-    if (route.redirectTo && route.children) {
-      throw new RuntimeError(4014, `Invalid configuration of route '${fullPath}': redirectTo and children cannot be used together`);
-    }
-    if (route.redirectTo && route.loadChildren) {
-      throw new RuntimeError(4014, `Invalid configuration of route '${fullPath}': redirectTo and loadChildren cannot be used together`);
-    }
-    if (route.children && route.loadChildren) {
-      throw new RuntimeError(4014, `Invalid configuration of route '${fullPath}': children and loadChildren cannot be used together`);
-    }
-    if (route.redirectTo && (route.component || route.loadComponent)) {
-      throw new RuntimeError(4014, `Invalid configuration of route '${fullPath}': redirectTo and component/loadComponent cannot be used together`);
-    }
-    if (route.component && route.loadComponent) {
-      throw new RuntimeError(4014, `Invalid configuration of route '${fullPath}': component and loadComponent cannot be used together`);
-    }
-    if (route.redirectTo && route.canActivate) {
-      throw new RuntimeError(4014, `Invalid configuration of route '${fullPath}': redirectTo and canActivate cannot be used together. Redirects happen before activation so canActivate will never be executed.`);
-    }
-    if (route.path && route.matcher) {
-      throw new RuntimeError(4014, `Invalid configuration of route '${fullPath}': path and matcher cannot be used together`);
-    }
-    if (route.redirectTo === void 0 && !route.component && !route.loadComponent && !route.children && !route.loadChildren) {
-      throw new RuntimeError(4014, `Invalid configuration of route '${fullPath}'. One of the following must be provided: component, loadComponent, redirectTo, children or loadChildren`);
-    }
-    if (route.path === void 0 && route.matcher === void 0) {
-      throw new RuntimeError(4014, `Invalid configuration of route '${fullPath}': routes must have either a path or a matcher specified`);
-    }
-    if (typeof route.path === "string" && route.path.charAt(0) === "/") {
-      throw new RuntimeError(4014, `Invalid configuration of route '${fullPath}': path cannot start with a slash`);
-    }
-    if (route.path === "" && route.redirectTo !== void 0 && route.pathMatch === void 0) {
-      const exp = `The default value of 'pathMatch' is 'prefix', but often the intent is to use 'full'.`;
-      throw new RuntimeError(4014, `Invalid configuration of route '{path: "${fullPath}", redirectTo: "${route.redirectTo}"}': please provide 'pathMatch'. ${exp}`);
-    }
-    if (requireStandaloneComponents) {
-      assertStandalone(fullPath, route.component);
-    }
-  }
-  if (route.children) {
-    validateConfig(route.children, fullPath, requireStandaloneComponents);
-  }
-}
-function getFullPath(parentPath, currentRoute) {
-  if (!currentRoute) {
-    return parentPath;
-  }
-  if (!parentPath && !currentRoute.path) {
-    return "";
-  } else if (parentPath && !currentRoute.path) {
-    return `${parentPath}/`;
-  } else if (!parentPath && currentRoute.path) {
-    return currentRoute.path;
-  } else {
-    return `${parentPath}/${currentRoute.path}`;
-  }
-}
-function getOutlet(route) {
-  return route.outlet || PRIMARY_OUTLET;
-}
-function sortByMatchingOutlets(routes, outletName) {
-  const sortedConfig = routes.filter((r) => getOutlet(r) === outletName);
-  sortedConfig.push(...routes.filter((r) => getOutlet(r) !== outletName));
-  return sortedConfig;
-}
-function getClosestRouteInjector(snapshot) {
-  if (!snapshot) return null;
-  if (snapshot.routeConfig?._injector) {
-    return snapshot.routeConfig._injector;
-  }
-  for (let s = snapshot.parent; s; s = s.parent) {
-    const route = s.routeConfig;
-    if (route?._loadedInjector) return route._loadedInjector;
-    if (route?._injector) return route._injector;
-  }
-  return null;
-}
 var OutletContext = class {
-  get injector() {
-    return getClosestRouteInjector(this.route?.snapshot) ?? this.rootInjector;
-  }
-  // TODO(atscott): Only here to avoid a "breaking" change in a patch/minor. Remove in v19.
-  set injector(_) {
-  }
-  constructor(rootInjector) {
-    this.rootInjector = rootInjector;
+  constructor(injector) {
+    this.injector = injector;
     this.outlet = null;
     this.route = null;
-    this.children = new ChildrenOutletContexts(this.rootInjector);
+    this.children = new ChildrenOutletContexts(this.injector);
     this.attachRef = null;
   }
 };
 var ChildrenOutletContexts = class _ChildrenOutletContexts {
   /** @nodoc */
-  constructor(rootInjector) {
-    this.rootInjector = rootInjector;
+  constructor(parentInjector) {
+    this.parentInjector = parentInjector;
     this.contexts = /* @__PURE__ */ new Map();
   }
   /** Called when a `RouterOutlet` directive is instantiated */
@@ -1367,7 +1245,7 @@ var ChildrenOutletContexts = class _ChildrenOutletContexts {
   getOrCreateContext(childName) {
     let context = this.getContext(childName);
     if (!context) {
-      context = new OutletContext(this.rootInjector);
+      context = new OutletContext(this.parentInjector);
       this.contexts.set(childName, context);
     }
     return context;
@@ -1376,8 +1254,8 @@ var ChildrenOutletContexts = class _ChildrenOutletContexts {
     return this.contexts.get(childName) || null;
   }
   static {
-    this.ɵfac = function ChildrenOutletContexts_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _ChildrenOutletContexts)(ɵɵinject(EnvironmentInjector));
+    this.ɵfac = function ChildrenOutletContexts_Factory(t) {
+      return new (t || _ChildrenOutletContexts)(ɵɵinject(EnvironmentInjector));
     };
   }
   static {
@@ -1836,8 +1714,8 @@ var RouterOutlet = class _RouterOutlet {
     this.activateEvents.emit(this.activated.instance);
   }
   static {
-    this.ɵfac = function RouterOutlet_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _RouterOutlet)();
+    this.ɵfac = function RouterOutlet_Factory(t) {
+      return new (t || _RouterOutlet)();
     };
   }
   static {
@@ -1965,8 +1843,8 @@ var RoutedComponentInputBinder = class _RoutedComponentInputBinder {
     this.outletDataSubscriptions.set(outlet, dataSubscription);
   }
   static {
-    this.ɵfac = function RoutedComponentInputBinder_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _RoutedComponentInputBinder)();
+    this.ɵfac = function RoutedComponentInputBinder_Factory(t) {
+      return new (t || _RoutedComponentInputBinder)();
     };
   }
   static {
@@ -2050,6 +1928,167 @@ function isRedirectingNavigationCancelingError(error) {
 }
 function isNavigationCancelingError(error) {
   return !!error && error[NAVIGATION_CANCELING_ERROR];
+}
+var ɵEmptyOutletComponent = class _ɵEmptyOutletComponent {
+  static {
+    this.ɵfac = function ɵEmptyOutletComponent_Factory(t) {
+      return new (t || _ɵEmptyOutletComponent)();
+    };
+  }
+  static {
+    this.ɵcmp = ɵɵdefineComponent({
+      type: _ɵEmptyOutletComponent,
+      selectors: [["ng-component"]],
+      standalone: true,
+      features: [ɵɵStandaloneFeature],
+      decls: 1,
+      vars: 0,
+      template: function _EmptyOutletComponent_Template(rf, ctx) {
+        if (rf & 1) {
+          ɵɵelement(0, "router-outlet");
+        }
+      },
+      dependencies: [RouterOutlet],
+      encapsulation: 2
+    });
+  }
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ɵEmptyOutletComponent, [{
+    type: Component,
+    args: [{
+      template: `<router-outlet></router-outlet>`,
+      imports: [RouterOutlet],
+      standalone: true
+    }]
+  }], null, null);
+})();
+function getOrCreateRouteInjectorIfNeeded(route, currentInjector) {
+  if (route.providers && !route._injector) {
+    route._injector = createEnvironmentInjector(route.providers, currentInjector, `Route: ${route.path}`);
+  }
+  return route._injector ?? currentInjector;
+}
+function validateConfig(config, parentPath = "", requireStandaloneComponents = false) {
+  for (let i = 0; i < config.length; i++) {
+    const route = config[i];
+    const fullPath = getFullPath(parentPath, route);
+    validateNode(route, fullPath, requireStandaloneComponents);
+  }
+}
+function assertStandalone(fullPath, component) {
+  if (component && isNgModule(component)) {
+    throw new RuntimeError(4014, `Invalid configuration of route '${fullPath}'. You are using 'loadComponent' with a module, but it must be used with standalone components. Use 'loadChildren' instead.`);
+  } else if (component && !isStandalone(component)) {
+    throw new RuntimeError(4014, `Invalid configuration of route '${fullPath}'. The component must be standalone.`);
+  }
+}
+function validateNode(route, fullPath, requireStandaloneComponents) {
+  if (typeof ngDevMode === "undefined" || ngDevMode) {
+    if (!route) {
+      throw new RuntimeError(4014, `
+      Invalid configuration of route '${fullPath}': Encountered undefined route.
+      The reason might be an extra comma.
+
+      Example:
+      const routes: Routes = [
+        { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+        { path: 'dashboard',  component: DashboardComponent },, << two commas
+        { path: 'detail/:id', component: HeroDetailComponent }
+      ];
+    `);
+    }
+    if (Array.isArray(route)) {
+      throw new RuntimeError(4014, `Invalid configuration of route '${fullPath}': Array cannot be specified`);
+    }
+    if (!route.redirectTo && !route.component && !route.loadComponent && !route.children && !route.loadChildren && route.outlet && route.outlet !== PRIMARY_OUTLET) {
+      throw new RuntimeError(4014, `Invalid configuration of route '${fullPath}': a componentless route without children or loadChildren cannot have a named outlet set`);
+    }
+    if (route.redirectTo && route.children) {
+      throw new RuntimeError(4014, `Invalid configuration of route '${fullPath}': redirectTo and children cannot be used together`);
+    }
+    if (route.redirectTo && route.loadChildren) {
+      throw new RuntimeError(4014, `Invalid configuration of route '${fullPath}': redirectTo and loadChildren cannot be used together`);
+    }
+    if (route.children && route.loadChildren) {
+      throw new RuntimeError(4014, `Invalid configuration of route '${fullPath}': children and loadChildren cannot be used together`);
+    }
+    if (route.redirectTo && (route.component || route.loadComponent)) {
+      throw new RuntimeError(4014, `Invalid configuration of route '${fullPath}': redirectTo and component/loadComponent cannot be used together`);
+    }
+    if (route.component && route.loadComponent) {
+      throw new RuntimeError(4014, `Invalid configuration of route '${fullPath}': component and loadComponent cannot be used together`);
+    }
+    if (route.redirectTo && route.canActivate) {
+      throw new RuntimeError(4014, `Invalid configuration of route '${fullPath}': redirectTo and canActivate cannot be used together. Redirects happen before activation so canActivate will never be executed.`);
+    }
+    if (route.path && route.matcher) {
+      throw new RuntimeError(4014, `Invalid configuration of route '${fullPath}': path and matcher cannot be used together`);
+    }
+    if (route.redirectTo === void 0 && !route.component && !route.loadComponent && !route.children && !route.loadChildren) {
+      throw new RuntimeError(4014, `Invalid configuration of route '${fullPath}'. One of the following must be provided: component, loadComponent, redirectTo, children or loadChildren`);
+    }
+    if (route.path === void 0 && route.matcher === void 0) {
+      throw new RuntimeError(4014, `Invalid configuration of route '${fullPath}': routes must have either a path or a matcher specified`);
+    }
+    if (typeof route.path === "string" && route.path.charAt(0) === "/") {
+      throw new RuntimeError(4014, `Invalid configuration of route '${fullPath}': path cannot start with a slash`);
+    }
+    if (route.path === "" && route.redirectTo !== void 0 && route.pathMatch === void 0) {
+      const exp = `The default value of 'pathMatch' is 'prefix', but often the intent is to use 'full'.`;
+      throw new RuntimeError(4014, `Invalid configuration of route '{path: "${fullPath}", redirectTo: "${route.redirectTo}"}': please provide 'pathMatch'. ${exp}`);
+    }
+    if (requireStandaloneComponents) {
+      assertStandalone(fullPath, route.component);
+    }
+  }
+  if (route.children) {
+    validateConfig(route.children, fullPath, requireStandaloneComponents);
+  }
+}
+function getFullPath(parentPath, currentRoute) {
+  if (!currentRoute) {
+    return parentPath;
+  }
+  if (!parentPath && !currentRoute.path) {
+    return "";
+  } else if (parentPath && !currentRoute.path) {
+    return `${parentPath}/`;
+  } else if (!parentPath && currentRoute.path) {
+    return currentRoute.path;
+  } else {
+    return `${parentPath}/${currentRoute.path}`;
+  }
+}
+function standardizeConfig(r) {
+  const children = r.children && r.children.map(standardizeConfig);
+  const c = children ? __spreadProps(__spreadValues({}, r), {
+    children
+  }) : __spreadValues({}, r);
+  if (!c.component && !c.loadComponent && (children || c.loadChildren) && c.outlet && c.outlet !== PRIMARY_OUTLET) {
+    c.component = ɵEmptyOutletComponent;
+  }
+  return c;
+}
+function getOutlet(route) {
+  return route.outlet || PRIMARY_OUTLET;
+}
+function sortByMatchingOutlets(routes, outletName) {
+  const sortedConfig = routes.filter((r) => getOutlet(r) === outletName);
+  sortedConfig.push(...routes.filter((r) => getOutlet(r) !== outletName));
+  return sortedConfig;
+}
+function getClosestRouteInjector(snapshot) {
+  if (!snapshot) return null;
+  if (snapshot.routeConfig?._injector) {
+    return snapshot.routeConfig._injector;
+  }
+  for (let s = snapshot.parent; s; s = s.parent) {
+    const route = s.routeConfig;
+    if (route?._loadedInjector) return route._loadedInjector;
+    if (route?._injector) return route._injector;
+  }
+  return null;
 }
 var warnedAboutUnsupportedInputBinding = false;
 var activateRoutes = (rootContexts, routeReuseStrategy, forwardEvent, inputBindingEnabled) => (0, import_operators.map)((t) => {
@@ -2177,8 +2216,10 @@ var ActivateRoutes = class {
           advanceActivatedRoute(stored.route.value);
           this.activateChildRoutes(futureNode, null, context.children);
         } else {
+          const injector = getClosestRouteInjector(future.snapshot);
           context.attachRef = null;
           context.route = future;
+          context.injector = injector ?? context.injector;
           if (context.outlet) {
             context.outlet.activateWith(future, context.injector);
           }
@@ -2708,6 +2749,12 @@ function emptyPathMatch(segmentGroup, slicedSegments, r) {
   }
   return r.path === "";
 }
+function isImmediateMatch(route, rawSegment, segments, outlet) {
+  if (getOutlet(route) !== outlet && (outlet === PRIMARY_OUTLET || !emptyPathMatch(rawSegment, segments, route))) {
+    return false;
+  }
+  return match(rawSegment, route, segments).matched;
+}
 function noLeftoversInUrl(segmentGroup, segments, outlet) {
   return segments.length === 0 && !segmentGroup.children[outlet];
 }
@@ -2827,9 +2874,7 @@ var Recognizer = class {
     }));
   }
   processSegmentAgainstRoute(injector, routes, route, rawSegment, segments, outlet, allowRedirects, parentRoute) {
-    if (getOutlet(route) !== outlet && (outlet === PRIMARY_OUTLET || !emptyPathMatch(rawSegment, segments, route))) {
-      return noMatch$1(rawSegment);
-    }
+    if (!isImmediateMatch(route, rawSegment, segments, outlet)) return noMatch$1(rawSegment);
     if (route.redirectTo === void 0) {
       return this.matchSegmentAgainstRoute(injector, rawSegment, route, segments, outlet, parentRoute);
     }
@@ -3097,8 +3142,8 @@ var TitleStrategy = class _TitleStrategy {
     return snapshot.data[RouteTitleKey];
   }
   static {
-    this.ɵfac = function TitleStrategy_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _TitleStrategy)();
+    this.ɵfac = function TitleStrategy_Factory(t) {
+      return new (t || _TitleStrategy)();
     };
   }
   static {
@@ -3135,8 +3180,8 @@ var DefaultTitleStrategy = class _DefaultTitleStrategy extends TitleStrategy {
     }
   }
   static {
-    this.ɵfac = function DefaultTitleStrategy_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _DefaultTitleStrategy)(ɵɵinject(Title));
+    this.ɵfac = function DefaultTitleStrategy_Factory(t) {
+      return new (t || _DefaultTitleStrategy)(ɵɵinject(Title));
     };
   }
   static {
@@ -3161,50 +3206,6 @@ var ROUTER_CONFIGURATION = new InjectionToken(typeof ngDevMode === "undefined" |
   providedIn: "root",
   factory: () => ({})
 });
-var ɵEmptyOutletComponent = class _ɵEmptyOutletComponent {
-  static {
-    this.ɵfac = function ɵEmptyOutletComponent_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _ɵEmptyOutletComponent)();
-    };
-  }
-  static {
-    this.ɵcmp = ɵɵdefineComponent({
-      type: _ɵEmptyOutletComponent,
-      selectors: [["ng-component"]],
-      standalone: true,
-      features: [ɵɵStandaloneFeature],
-      decls: 1,
-      vars: 0,
-      template: function _EmptyOutletComponent_Template(rf, ctx) {
-        if (rf & 1) {
-          ɵɵelement(0, "router-outlet");
-        }
-      },
-      dependencies: [RouterOutlet],
-      encapsulation: 2
-    });
-  }
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ɵEmptyOutletComponent, [{
-    type: Component,
-    args: [{
-      template: `<router-outlet></router-outlet>`,
-      imports: [RouterOutlet],
-      standalone: true
-    }]
-  }], null, null);
-})();
-function standardizeConfig(r) {
-  const children = r.children && r.children.map(standardizeConfig);
-  const c = children ? __spreadProps(__spreadValues({}, r), {
-    children
-  }) : __spreadValues({}, r);
-  if (!c.component && !c.loadComponent && (children || c.loadChildren) && c.outlet && c.outlet !== PRIMARY_OUTLET) {
-    c.component = ɵEmptyOutletComponent;
-  }
-  return c;
-}
 var ROUTES = new InjectionToken(ngDevMode ? "ROUTES" : "");
 var RouterConfigLoader = class _RouterConfigLoader {
   constructor() {
@@ -3255,8 +3256,8 @@ var RouterConfigLoader = class _RouterConfigLoader {
     return loader;
   }
   static {
-    this.ɵfac = function RouterConfigLoader_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _RouterConfigLoader)();
+    this.ɵfac = function RouterConfigLoader_Factory(t) {
+      return new (t || _RouterConfigLoader)();
     };
   }
   static {
@@ -3315,8 +3316,8 @@ function maybeUnwrapDefaultExport(input) {
 }
 var UrlHandlingStrategy = class _UrlHandlingStrategy {
   static {
-    this.ɵfac = function UrlHandlingStrategy_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _UrlHandlingStrategy)();
+    this.ɵfac = function UrlHandlingStrategy_Factory(t) {
+      return new (t || _UrlHandlingStrategy)();
     };
   }
   static {
@@ -3347,8 +3348,8 @@ var DefaultUrlHandlingStrategy = class _DefaultUrlHandlingStrategy {
     return newUrlPart;
   }
   static {
-    this.ɵfac = function DefaultUrlHandlingStrategy_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _DefaultUrlHandlingStrategy)();
+    this.ɵfac = function DefaultUrlHandlingStrategy_Factory(t) {
+      return new (t || _DefaultUrlHandlingStrategy)();
     };
   }
   static {
@@ -3400,9 +3401,7 @@ function createViewTransition(injector, from2, to) {
 }
 function createRenderPromise(injector) {
   return new Promise((resolve) => {
-    afterNextRender({
-      read: () => setTimeout(resolve)
-    }, {
+    afterNextRender(resolve, {
       injector
     });
   });
@@ -3503,7 +3502,6 @@ var NavigationTransitions = class _NavigationTransitions {
               id: t.id,
               initialUrl: t.rawUrl,
               extractedUrl: t.extractedUrl,
-              targetBrowserUrl: typeof t.extras.browserUrl === "string" ? this.urlSerializer.parse(t.extras.browserUrl) : t.extras.browserUrl,
               trigger: t.source,
               extras: t.extras,
               previousNavigation: !this.lastSuccessfulNavigation ? null : __spreadProps(__spreadValues({}, this.lastSuccessfulNavigation), {
@@ -3750,13 +3748,12 @@ var NavigationTransitions = class _NavigationTransitions {
    * bar if navigation succeeds).
    */
   isUpdatedBrowserUrl() {
-    const currentBrowserUrl = this.urlHandlingStrategy.extract(this.urlSerializer.parse(this.location.path(true)));
-    const targetBrowserUrl = this.currentNavigation?.targetBrowserUrl ?? this.currentNavigation?.extractedUrl;
-    return currentBrowserUrl.toString() !== targetBrowserUrl?.toString() && !this.currentNavigation?.extras.skipLocationChange;
+    const extractedBrowserUrl = this.urlHandlingStrategy.extract(this.urlSerializer.parse(this.location.path(true)));
+    return extractedBrowserUrl.toString() !== this.currentTransition?.extractedUrl.toString() && !this.currentTransition?.extras.skipLocationChange;
   }
   static {
-    this.ɵfac = function NavigationTransitions_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _NavigationTransitions)();
+    this.ɵfac = function NavigationTransitions_Factory(t) {
+      return new (t || _NavigationTransitions)();
     };
   }
   static {
@@ -3780,8 +3777,8 @@ function isBrowserTriggeredNavigation(source) {
 }
 var RouteReuseStrategy = class _RouteReuseStrategy {
   static {
-    this.ɵfac = function RouteReuseStrategy_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _RouteReuseStrategy)();
+    this.ɵfac = function RouteReuseStrategy_Factory(t) {
+      return new (t || _RouteReuseStrategy)();
     };
   }
   static {
@@ -3835,8 +3832,8 @@ var DefaultRouteReuseStrategy = class _DefaultRouteReuseStrategy extends BaseRou
   static {
     this.ɵfac = /* @__PURE__ */ (() => {
       let ɵDefaultRouteReuseStrategy_BaseFactory;
-      return function DefaultRouteReuseStrategy_Factory(__ngFactoryType__) {
-        return (ɵDefaultRouteReuseStrategy_BaseFactory || (ɵDefaultRouteReuseStrategy_BaseFactory = ɵɵgetInheritedFactory(_DefaultRouteReuseStrategy)))(__ngFactoryType__ || _DefaultRouteReuseStrategy);
+      return function DefaultRouteReuseStrategy_Factory(t) {
+        return (ɵDefaultRouteReuseStrategy_BaseFactory || (ɵDefaultRouteReuseStrategy_BaseFactory = ɵɵgetInheritedFactory(_DefaultRouteReuseStrategy)))(t || _DefaultRouteReuseStrategy);
       };
     })();
   }
@@ -3858,8 +3855,8 @@ var DefaultRouteReuseStrategy = class _DefaultRouteReuseStrategy extends BaseRou
 })();
 var StateManager = class _StateManager {
   static {
-    this.ɵfac = function StateManager_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _StateManager)();
+    this.ɵfac = function StateManager_Factory(t) {
+      return new (t || _StateManager)();
     };
   }
   static {
@@ -3943,15 +3940,17 @@ var HistoryStateManager = class _HistoryStateManager extends StateManager {
       if (this.urlUpdateStrategy === "eager") {
         if (!currentTransition.extras.skipLocationChange) {
           const rawUrl = this.urlHandlingStrategy.merge(currentTransition.finalUrl, currentTransition.initialUrl);
-          this.setBrowserUrl(currentTransition.targetBrowserUrl ?? rawUrl, currentTransition);
+          this.setBrowserUrl(rawUrl, currentTransition);
         }
       }
     } else if (e instanceof BeforeActivateRoutes) {
       this.currentUrlTree = currentTransition.finalUrl;
       this.rawUrlTree = this.urlHandlingStrategy.merge(currentTransition.finalUrl, currentTransition.initialUrl);
       this.routerState = currentTransition.targetRouterState;
-      if (this.urlUpdateStrategy === "deferred" && !currentTransition.extras.skipLocationChange) {
-        this.setBrowserUrl(currentTransition.targetBrowserUrl ?? this.rawUrlTree, currentTransition);
+      if (this.urlUpdateStrategy === "deferred") {
+        if (!currentTransition.extras.skipLocationChange) {
+          this.setBrowserUrl(this.rawUrlTree, currentTransition);
+        }
       }
     } else if (e instanceof NavigationCancel && (e.code === NavigationCancellationCode.GuardRejected || e.code === NavigationCancellationCode.NoDataFromResolver)) {
       this.restoreHistory(currentTransition);
@@ -3963,7 +3962,7 @@ var HistoryStateManager = class _HistoryStateManager extends StateManager {
     }
   }
   setBrowserUrl(url, transition) {
-    const path = url instanceof UrlTree ? this.urlSerializer.serialize(url) : url;
+    const path = this.urlSerializer.serialize(url);
     if (this.location.isCurrentPathEqualTo(path) || !!transition.extras.replaceUrl) {
       const currentBrowserPageId = this.browserPageId;
       const state = __spreadValues(__spreadValues({}, transition.extras.state), this.generateNgRouterState(transition.id, currentBrowserPageId));
@@ -4017,8 +4016,8 @@ var HistoryStateManager = class _HistoryStateManager extends StateManager {
   static {
     this.ɵfac = /* @__PURE__ */ (() => {
       let ɵHistoryStateManager_BaseFactory;
-      return function HistoryStateManager_Factory(__ngFactoryType__) {
-        return (ɵHistoryStateManager_BaseFactory || (ɵHistoryStateManager_BaseFactory = ɵɵgetInheritedFactory(_HistoryStateManager)))(__ngFactoryType__ || _HistoryStateManager);
+      return function HistoryStateManager_Factory(t) {
+        return (ɵHistoryStateManager_BaseFactory || (ɵHistoryStateManager_BaseFactory = ɵɵgetInheritedFactory(_HistoryStateManager)))(t || _HistoryStateManager);
       };
     })();
   }
@@ -4137,7 +4136,7 @@ var Router = class _Router {
             const opts = e.navigationBehaviorOptions;
             const mergedTree = this.urlHandlingStrategy.merge(e.url, currentTransition.currentRawUrl);
             const extras = __spreadValues({
-              browserUrl: currentTransition.extras.browserUrl,
+              // Persist transient navigation info from the original navigation request.
               info: currentTransition.extras.info,
               skipLocationChange: currentTransition.extras.skipLocationChange,
               // The URL is already updated at this point if we have 'eager' URL
@@ -4322,7 +4321,7 @@ var Router = class _Router {
     } = navigationExtras;
     const f = preserveFragment ? this.currentUrlTree.fragment : fragment;
     let q = null;
-    switch (queryParamsHandling ?? this.options.defaultQueryParamsHandling) {
+    switch (queryParamsHandling) {
       case "merge":
         q = __spreadValues(__spreadValues({}, this.currentUrlTree.queryParams), queryParams);
         break;
@@ -4488,8 +4487,8 @@ var Router = class _Router {
     });
   }
   static {
-    this.ɵfac = function Router_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _Router)();
+    this.ɵfac = function Router_Factory(t) {
+      return new (t || _Router)();
     };
   }
   static {
@@ -4528,11 +4527,11 @@ var RouterLink = class _RouterLink {
     this.el = el;
     this.locationStrategy = locationStrategy;
     this.href = null;
+    this.commands = null;
     this.onChanges = new import_rxjs.Subject();
     this.preserveFragment = false;
     this.skipLocationChange = false;
     this.replaceUrl = false;
-    this.routerLinkInput = null;
     const tagName = el.nativeElement.tagName?.toLowerCase();
     this.isAnchorElement = tagName === "a" || tagName === "area";
     if (this.isAnchorElement) {
@@ -4556,36 +4555,26 @@ var RouterLink = class _RouterLink {
     this.applyAttributeValue("tabindex", newTabIndex);
   }
   /** @nodoc */
-  // TODO(atscott): Remove changes parameter in major version as a breaking change.
   ngOnChanges(changes) {
-    if (ngDevMode && isUrlTree(this.routerLinkInput) && (this.fragment !== void 0 || this.queryParams || this.queryParamsHandling || this.preserveFragment || this.relativeTo)) {
-      throw new RuntimeError(4016, "Cannot configure queryParams or fragment when using a UrlTree as the routerLink input value.");
-    }
     if (this.isAnchorElement) {
       this.updateHref();
     }
     this.onChanges.next(this);
   }
   /**
-   * Commands to pass to {@link Router#createUrlTree} or a `UrlTree`.
+   * Commands to pass to {@link Router#createUrlTree}.
    *   - **array**: commands to pass to {@link Router#createUrlTree}.
    *   - **string**: shorthand for array of commands with just the string, i.e. `['/route']`
-   *   - **UrlTree**: a `UrlTree` for this link rather than creating one from the commands
-   *     and other inputs that correspond to properties of `UrlCreationOptions`.
    *   - **null|undefined**: effectively disables the `routerLink`
    * @see {@link Router#createUrlTree}
    */
-  set routerLink(commandsOrUrlTree) {
-    if (commandsOrUrlTree == null) {
-      this.routerLinkInput = null;
-      this.setTabIndexIfNotOnNativeEl(null);
-    } else {
-      if (isUrlTree(commandsOrUrlTree)) {
-        this.routerLinkInput = commandsOrUrlTree;
-      } else {
-        this.routerLinkInput = Array.isArray(commandsOrUrlTree) ? commandsOrUrlTree : [commandsOrUrlTree];
-      }
+  set routerLink(commands) {
+    if (commands != null) {
+      this.commands = Array.isArray(commands) ? commands : [commands];
       this.setTabIndexIfNotOnNativeEl("0");
+    } else {
+      this.commands = null;
+      this.setTabIndexIfNotOnNativeEl(null);
     }
   }
   /** @nodoc */
@@ -4643,12 +4632,10 @@ var RouterLink = class _RouterLink {
     }
   }
   get urlTree() {
-    if (this.routerLinkInput === null) {
+    if (this.commands === null) {
       return null;
-    } else if (isUrlTree(this.routerLinkInput)) {
-      return this.routerLinkInput;
     }
-    return this.router.createUrlTree(this.routerLinkInput, {
+    return this.router.createUrlTree(this.commands, {
       // If the `relativeTo` input is not defined, we want to use `this.route` by default.
       // Otherwise, we should use the value provided by the user in the input.
       relativeTo: this.relativeTo !== void 0 ? this.relativeTo : this.route,
@@ -4659,8 +4646,8 @@ var RouterLink = class _RouterLink {
     });
   }
   static {
-    this.ɵfac = function RouterLink_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _RouterLink)(ɵɵdirectiveInject(Router), ɵɵdirectiveInject(ActivatedRoute), ɵɵinjectAttribute("tabindex"), ɵɵdirectiveInject(Renderer2), ɵɵdirectiveInject(ElementRef), ɵɵdirectiveInject(LocationStrategy));
+    this.ɵfac = function RouterLink_Factory(t) {
+      return new (t || _RouterLink)(ɵɵdirectiveInject(Router), ɵɵdirectiveInject(ActivatedRoute), ɵɵinjectAttribute("tabindex"), ɵɵdirectiveInject(Renderer2), ɵɵdirectiveInject(ElementRef), ɵɵdirectiveInject(LocationStrategy));
     };
   }
   static {
@@ -4860,8 +4847,8 @@ var RouterLinkActive = class _RouterLinkActive {
     return this.link && isActiveCheckFn(this.link) || this.links.some(isActiveCheckFn);
   }
   static {
-    this.ɵfac = function RouterLinkActive_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _RouterLinkActive)(ɵɵdirectiveInject(Router), ɵɵdirectiveInject(ElementRef), ɵɵdirectiveInject(Renderer2), ɵɵdirectiveInject(ChangeDetectorRef), ɵɵdirectiveInject(RouterLink, 8));
+    this.ɵfac = function RouterLinkActive_Factory(t) {
+      return new (t || _RouterLinkActive)(ɵɵdirectiveInject(Router), ɵɵdirectiveInject(ElementRef), ɵɵdirectiveInject(Renderer2), ɵɵdirectiveInject(ChangeDetectorRef), ɵɵdirectiveInject(RouterLink, 8));
     };
   }
   static {
@@ -4943,8 +4930,8 @@ var PreloadAllModules = class _PreloadAllModules {
     return fn().pipe((0, import_operators.catchError)(() => (0, import_rxjs.of)(null)));
   }
   static {
-    this.ɵfac = function PreloadAllModules_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _PreloadAllModules)();
+    this.ɵfac = function PreloadAllModules_Factory(t) {
+      return new (t || _PreloadAllModules)();
     };
   }
   static {
@@ -4968,8 +4955,8 @@ var NoPreloading = class _NoPreloading {
     return (0, import_rxjs.of)(null);
   }
   static {
-    this.ɵfac = function NoPreloading_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _NoPreloading)();
+    this.ɵfac = function NoPreloading_Factory(t) {
+      return new (t || _NoPreloading)();
     };
   }
   static {
@@ -5050,8 +5037,8 @@ var RouterPreloader = class _RouterPreloader {
     });
   }
   static {
-    this.ɵfac = function RouterPreloader_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _RouterPreloader)(ɵɵinject(Router), ɵɵinject(Compiler), ɵɵinject(EnvironmentInjector), ɵɵinject(PreloadingStrategy), ɵɵinject(RouterConfigLoader));
+    this.ɵfac = function RouterPreloader_Factory(t) {
+      return new (t || _RouterPreloader)(ɵɵinject(Router), ɵɵinject(Compiler), ɵɵinject(EnvironmentInjector), ɵɵinject(PreloadingStrategy), ɵɵinject(RouterConfigLoader));
     };
   }
   static {
@@ -5093,6 +5080,7 @@ var RouterScroller = class _RouterScroller {
     this.lastSource = "imperative";
     this.restoredId = 0;
     this.store = {};
+    this.environmentInjector = inject(EnvironmentInjector);
     options.scrollPositionRestoration ||= "disabled";
     options.anchorScrolling ||= "disabled";
   }
@@ -5138,13 +5126,21 @@ var RouterScroller = class _RouterScroller {
     });
   }
   scheduleScrollEvent(routerEvent, anchor) {
-    this.zone.runOutsideAngular(() => {
-      setTimeout(() => {
-        this.zone.run(() => {
-          this.transitions.events.next(new Scroll(routerEvent, this.lastSource === "popstate" ? this.store[this.restoredId] : null, anchor));
+    this.zone.runOutsideAngular(() => __async(this, null, function* () {
+      yield new Promise((resolve) => {
+        setTimeout(() => {
+          resolve();
         });
-      }, 0);
-    });
+        afterNextRender(() => {
+          resolve();
+        }, {
+          injector: this.environmentInjector
+        });
+      });
+      this.zone.run(() => {
+        this.transitions.events.next(new Scroll(routerEvent, this.lastSource === "popstate" ? this.store[this.restoredId] : null, anchor));
+      });
+    }));
   }
   /** @nodoc */
   ngOnDestroy() {
@@ -5152,7 +5148,7 @@ var RouterScroller = class _RouterScroller {
     this.scrollEventsSubscription?.unsubscribe();
   }
   static {
-    this.ɵfac = function RouterScroller_Factory(__ngFactoryType__) {
+    this.ɵfac = function RouterScroller_Factory(t) {
       ɵɵinvalidFactory();
     };
   }
@@ -5480,8 +5476,8 @@ var RouterModule = class _RouterModule {
     };
   }
   static {
-    this.ɵfac = function RouterModule_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _RouterModule)(ɵɵinject(ROUTER_FORROOT_GUARD, 8));
+    this.ɵfac = function RouterModule_Factory(t) {
+      return new (t || _RouterModule)(ɵɵinject(ROUTER_FORROOT_GUARD, 8));
     };
   }
   static {
@@ -5580,7 +5576,7 @@ function mapToCanDeactivate(providers) {
 function mapToResolve(provider) {
   return (...params) => inject(provider).resolve(...params);
 }
-var VERSION = new Version("18.2.13");
+var VERSION = new Version("18.0.1");
 export {
   ActivatedRoute,
   ActivatedRouteSnapshot,
@@ -5664,7 +5660,7 @@ export {
 
 @angular/router/fesm2022/router.mjs:
   (**
-   * @license Angular v18.2.13
+   * @license Angular v18.0.1
    * (c) 2010-2024 Google LLC. https://angular.io/
    * License: MIT
    *)
