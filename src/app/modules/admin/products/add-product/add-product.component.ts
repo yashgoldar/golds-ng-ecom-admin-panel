@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, computed, inject, model, signal } from '@angular/core';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, computed, inject, model, OnInit, signal } from '@angular/core';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -10,16 +10,25 @@ import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import {MatChipInputEvent, MatChipsModule} from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
+import { CommonModule } from '@angular/common';
+import { ImageUploadComponent } from '../../../../libs/components/image-upload/image-upload.component';
+import { ButtonComponent } from '../../../../libs/components/utilities/button/button.component';
+import { BreadcrumbsComponent } from '../../../../libs/components/utilities/breadcrumbs/breadcrumbs.component';
 
 @Component({
     selector: 'app-add-product',
-    imports: [MatFormFieldModule,MatInputModule,MatSelectModule,MatDatepickerModule,MatNativeDateModule,FormsModule,MatAutocompleteModule,MatChipsModule,MatIconModule, ReactiveFormsModule],
+    imports: [BreadcrumbsComponent,ImageUploadComponent,CommonModule, MatButtonModule,MatFormFieldModule,MatInputModule,MatSelectModule,MatDatepickerModule,MatNativeDateModule,FormsModule,MatAutocompleteModule,MatChipsModule,MatIconModule, ReactiveFormsModule,ButtonComponent],
     standalone:true,
     templateUrl: './add-product.component.html',
     styleUrl: './add-product.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AddProductComponent {
+export class AddProductComponent implements OnInit{
+  form!: FormGroup;
+
+  images:any = [];
+  isDragOver = false;
     myFilter = (d: Date | null): boolean => {
         const day = (d || new Date()).getDay();
         // Prevent Saturday and Sunday from being selected.
@@ -29,6 +38,8 @@ export class AddProductComponent {
       toppings = new FormControl('');
 
       toppingList: string[] = ['XS', 'S', 'M', 'L', 'XL', 'XXL','XXXL'];
+
+      constructor(private cdr: ChangeDetectorRef) {}
 
       readonly separatorKeysCodes: number[] = [ENTER, COMMA];
       readonly currentFruit = model('');
@@ -42,6 +53,12 @@ export class AddProductComponent {
       });
     
       readonly announcer = inject(LiveAnnouncer);
+
+      ngOnInit(): void {
+        this.form = new FormGroup({
+          images: new FormControl([])
+        });
+      }
     
       add(event: MatChipInputEvent): void {
         const value = (event.value || '').trim();
@@ -73,4 +90,67 @@ export class AddProductComponent {
         this.currentFruit.set('');
         event.option.deselect();
       }
+
+   
+    
+      // Handle file input change event
+      onFileSelected(event: any): void {
+        const files: FileList = event.target.files;
+        if (files) {
+          this.handleFiles(files);
+        }
+      }
+    
+
+
+      private handleFiles(files: FileList): void {
+        Array.from(files).forEach((file: File) => {
+          if (file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = (e: any) => {
+              this.images.push(e.target.result);
+              console.log('Image loaded. Current images:', [...this.images]);
+              // Trigger change detection manually
+              this.cdr.detectChanges();
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+      }
+    
+      // Prevent default behavior when file is dragged over
+      onDragOver(event: DragEvent): void {
+        event.preventDefault();
+        this.isDragOver = true;
+      }
+    
+      // Remove drag over state when leaving the drop area
+      onDragLeave(event: DragEvent): void {
+        event.preventDefault();
+        this.isDragOver = false;
+      }
+    
+      // Handle drop event for drag-and-drop
+      onDrop(event: DragEvent): void {
+        event.preventDefault();
+        this.isDragOver = false;
+        if (event.dataTransfer?.files) {
+          this.handleFiles(event.dataTransfer.files);
+        }
+      }
+
+      onSubmit(): void {
+        console.log('Form Value:', this.form.value);
+      }
+
+
+      handleButtonClick(event: Event): void {
+        console.log('Button clicked!', event);
+      }
+
+      handleCancelClick(event: Event): void {
+        console.log('Button clicked!', event);
+      }
+      
+      
 }

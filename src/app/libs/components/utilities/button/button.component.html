@@ -1,0 +1,7 @@
+<button 
+  [ngClass]="className" 
+  [type]="type" 
+  [disabled]="disabled"
+  (click)="handleClick($event)">
+  <ng-content></ng-content> <!-- Allows custom content inside the button -->
+</button>

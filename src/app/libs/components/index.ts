@@ -21,3 +21,5 @@ export * from './utilities/drag-drop-list/drag-drop-list.component';
 export * from './utilities/loading-spinner/loading-spinner.component';
 export * from './utilities/progress-bar/progress-bar.component';
 export * from './utilities/tooltip/tooltip.component';
+export * from './utilities/button/button.component';
+export * from './tables/client-ag-grid-datatable/client-ag-grid-datatable.component';

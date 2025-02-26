@@ -1,1 +1,16 @@
-<p>list-products works!</p>
+<section>
+    <div class="breadcrumb-card d-md-flex align-items-center justify-content-between py-3">
+        <h6 class="mb-0"> List Products </h6>
+        <app-breadcrumbs [breadcrumbs]="[
+        { label: 'Dashboard', url: '/' },
+        { label: 'Products', url: '/products' },
+        { label: 'Lists' } 
+      ]">
+        </app-breadcrumbs>
+    </div>
+
+    <app-client-ag-grid-datatable [columnDefs]="columnDefs" [rowData]="rows">
+    </app-client-ag-grid-datatable>
+
+
+</section>

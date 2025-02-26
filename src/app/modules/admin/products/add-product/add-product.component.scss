@@ -1,0 +1,13 @@
+.upload-area {
+    position: relative;
+    z-index: 1; /* Base layer */
+    background-color: #f8f9fa;
+    transition: border-color 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .preview-container {
+    position: relative;
+    z-index: 2; /* Above the drop area */
+  }
+  
